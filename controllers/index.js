@@ -121,7 +121,6 @@ document.querySelector('#btnCapNhat').onclick = function () {
         kiemtraRong(nhanVienEdit.hoTen, 'HovaTen') &
         kiemtraRong(nhanVienEdit.email, 'email') &
         kiemtraRong(nhanVienEdit.password, 'password') &
-        // kiemtraRong(nhanVienEdit.ngayLam, 'NgayLam') &
         kiemtraRong(nhanVienEdit.chucVu, 'ChucVu') &
         kiemtraRong(nhanVienEdit.giolam, 'GioLam');
 

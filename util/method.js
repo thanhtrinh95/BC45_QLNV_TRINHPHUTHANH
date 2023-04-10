@@ -64,7 +64,7 @@ function kiemTraSo(value, name) {
 }
 
 function kiemtraKyTu(value, name) {
-    var regexLetter = /^[A-Za-z]+$/;;
+    var regexLetter = /^[A-Za-z\s]+$/;;
     if (regexLetter.test(value)) {
         document.querySelector(`#error-regex-${name}`).innerHTML = '';
         return true;
