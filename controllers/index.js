@@ -1,6 +1,6 @@
 
 var arrNhanVien = [];
-
+var vndFormat = new Intl.NumberFormat('it-IT');
 document.querySelector('#btnThemNV').onclick = function (event) {
     event.preventDefault();
 
@@ -25,13 +25,12 @@ document.querySelector('#btnThemNV').onclick = function (event) {
         kiemtraRong(nv.email, 'email') &
         kiemtraRong(nv.password, 'password') &
         kiemtraRong(nv.ngayLam, 'NgayLam') &
-        kiemtraRong(nv.chucVu, 'ChucVu') &
         kiemtraRong(nv.giolam, 'GioLam');
 
     valid = valid & kiemtraKyTu(nv.hoTen, 'HovaTen') &
         kiemTraEmail(nv.email, 'email')
     kiemTraSo(nv.luongCoBan, 'luongCoBan');
-
+    valid = valid & kiemTraOption(nv.chucVu, 'ChucVu');
     valid = valid & kiemTraDoDai(nv.taiKhoan, 'TaiKhoan', 4, 6) &
         kiemTraDoDai(nv.password, 'password', 6, 10);
     valid = valid & kiemTraGiaTri(nv.luongCoBan, 'luongCoBan', 1000000, 20000000) &
@@ -47,6 +46,7 @@ document.querySelector('#btnThemNV').onclick = function (event) {
 //In thông tin nhân viên
 function renderNhanVien(arrNV) {
     var htmlcontent = '';
+
     for (var i = 0; i < arrNV.length; i++) {
         var nvNew = new NhanVien();
         var nv = arrNV[i];
@@ -58,7 +58,7 @@ function renderNhanVien(arrNV) {
                 <td> ${nvNew.email}</td>
                 <td> ${nvNew.ngayLam}</td>
                 <td> ${nvNew.chucVu}</td>
-                <td> ${nvNew.tongLuong()}</td>   
+                <td> ${vndFormat.format(nvNew.tongLuong())}vnd</td>   
                 <td> ${nvNew.tinhxepLoai()}</td>
                 <td><button class="btn btn-primary mx-2" onclick="suaNhanVien('${nvNew.taiKhoan}')" data-toggle="modal"
                 data-target="#myModal">Sửa</button></td>
@@ -102,17 +102,40 @@ function suaNhanVien(matkClick) {
 
 //Lưu thông nhân viên sau khi sửa 
 document.querySelector('#btnCapNhat').onclick = function () {
+
     var nhanVienEdit = new NhanVien();
+
     nhanVienEdit.taiKhoan = document.querySelector('#tknv').value;
     nhanVienEdit.hoTen = document.querySelector('#name').value;
     nhanVienEdit.email = document.querySelector('#email').value;
-    nhanVienEdit.password = document.querySelector('#datepicker').value;
-    nhanVienEdit.luongCoBan = +document.querySelector('#luongCB').value;
+    nhanVienEdit.password = document.querySelector('#password').value;
+    nhanVienEdit.ngayLam = document.querySelector('#datepicker').value;
+    nhanVienEdit.luongCoBan = document.querySelector('#luongCB').value;
     var chucvu = document.querySelector('#chucvu');
     nhanVienEdit.chucVu = chucvu.options[chucvu.selectedIndex].text;
-    nhanVienEdit.giolam = +document.querySelector('#gioLam').value;
+    nhanVienEdit.giolam = document.querySelector('#gioLam').value;
     console.log(nhanVienEdit);
+    var valid = true;
+    valid =
+        kiemtraRong(nhanVienEdit.taiKhoan, 'TaiKhoan') &
+        kiemtraRong(nhanVienEdit.hoTen, 'HovaTen') &
+        kiemtraRong(nhanVienEdit.email, 'email') &
+        kiemtraRong(nhanVienEdit.password, 'password') &
+        // kiemtraRong(nhanVienEdit.ngayLam, 'NgayLam') &
+        kiemtraRong(nhanVienEdit.chucVu, 'ChucVu') &
+        kiemtraRong(nhanVienEdit.giolam, 'GioLam');
 
+    valid = valid & kiemtraKyTu(nhanVienEdit.hoTen, 'HovaTen') &
+        kiemTraEmail(nhanVienEdit.email, 'email')
+    kiemTraSo(nhanVienEdit.luongCoBan, 'luongCoBan');
+    valid = valid & kiemTraOption(nv.chucVu, 'ChucVu');
+    valid = valid & kiemTraDoDai(nhanVienEdit.taiKhoan, 'TaiKhoan', 4, 6) &
+        kiemTraDoDai(nhanVienEdit.password, 'password', 6, 10);
+    valid = valid & kiemTraGiaTri(nhanVienEdit.luongCoBan, 'luongCoBan', 1000000, 20000000) &
+        kiemTraGiaTri(nhanVienEdit.giolam, 'GioLam', 80, 200);
+    if (!valid) {
+        return;
+    }
 
 
     for (var i = 0; i < arrNhanVien.length; i++) {
@@ -143,6 +166,7 @@ function xoaNhanVien(indexXoa) {
     arrNhanVien.splice(indexXoa, 1);
 
     renderNhanVien(arrNhanVien);
+    saveStorage();
 }
 
 //tìm nhân viên

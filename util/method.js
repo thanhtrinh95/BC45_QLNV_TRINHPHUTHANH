@@ -47,7 +47,7 @@ function kiemTraEmail(value, name) {
         document.querySelector(`#error-regex-${name}`).innerHTML = '';
         return true;
     }
-    document.querySelector(`#error-regex-${name}`).innerHTML = `${name} không hợp lệ !`;
+    document.querySelector(`#error-regex-${name}`).innerHTML = `Email không hợp lệ !`;
     return false;
 
 
@@ -71,6 +71,14 @@ function kiemtraKyTu(value, name) {
     }
     document.querySelector(`#error-regex-${name}`).innerHTML = `${name} không hợp lệ !`;
     return false;
+}
+
+function kiemTraOption(value, name) {
+    if (value == 'Chọn chức vụ') {
+        document.querySelector(`#error-option-${name}`).innerHTML = `Chưa chọn chức vụ`;
+        return false;
+    } document.querySelector(`#error-option-${name}`).innerHTML = '';
+    return true;
 }
 
 function kiemTraDoDai(value, name, minLength, maxLength) {
@@ -97,11 +105,4 @@ function kiemTraGiaTri(value, name, minValue, maxValue) {
 
 
 
-function kiemtraOption(el, name) {
-    if (el.options[el.selectedIndex].defaultSelected) {
-        document.querySelector(`#error-option-${name}`).innerHTML = `${name} giá trị từ ${minValue} - ${maxValue}`;
-        return false;
-    }
-    document.querySelector(`#error-option-${name}`).innerHTML = ``;
-    return true;
-}
+
